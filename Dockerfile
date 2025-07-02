@@ -5,7 +5,7 @@ LABEL author="Torsten Widmann" maintainer="info@goover.de"
 ENV DEBIAN_FRONTEND=noninteractive \
     DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_RUNNING_IN_CONTAINER=true \
-    DOTNET_ROOT=/usr/share/ \
+    DOTNET_ROOT=/usr/share/dotnet \
     XDG_CONFIG_HOME=/home/container/.config \
     NITROX_CONFIG_PATH=/home/container/.config/Nitrox
 
@@ -16,17 +16,14 @@ RUN apt update -y \
         curl \
         libgdiplus \
         tini \
-    && wget https://dot.net/v1/dotnet-install.sh \
-    && chmod +x dotnet-install.sh \
-    && ./dotnet-install.sh -i /usr/share -v 9.0 \
-    && ln -s /usr/share/dotnet /usr/bin/dotnet \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm dotnet-install.sh
+        libc6-dev \
+    && curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 9.0.0-preview.3 --install-dir /usr/share/dotnet \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
+    && rm -rf /var/lib/apt/lists/*
 
 USER container
 ENV USER=container HOME=/home/container
 WORKDIR /home/container
-RUN mkdir -p ${XDG_CONFIG_HOME}/Nitrox
 
 COPY --chown=container:container ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
