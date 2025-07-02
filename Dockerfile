@@ -38,9 +38,6 @@ WORKDIR /home/container
 # Create config directory
 RUN mkdir -p ${XDG_CONFIG_HOME}/Nitrox
 
-# Copy Nitrox server files
-COPY --chown=container:container ./nitrox /home/container/nitrox/
-
 # Copy entrypoint
 COPY --chown=container:container ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
