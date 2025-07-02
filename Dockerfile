@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     DOTNET_ROOT=/usr/share/dotnet \
     XDG_CONFIG_HOME=/home/container/.config \
     NITROX_CONFIG_PATH=/home/container/.config/Nitrox \
+    NITROX_GAME_PATH=/home/container/subnautica \
     ASPNETCORE_ENVIRONMENT=Production
 
 RUN apt update -y \
